@@ -98,7 +98,13 @@ function closeDialog() {
 }
 
 onMounted(async () => {
+
   await userStore.loadUsers()
+
+  console.log(
+    'USERS:',
+    userStore.users
+  )
 })
 </script>
 
