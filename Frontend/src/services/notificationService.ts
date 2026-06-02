@@ -1,0 +1,23 @@
+import api from './api'
+
+export async function getNotifications() {
+
+  const response =
+    await api.get(
+      '/notifications'
+    )
+
+  return response.data
+}
+
+export async function markAsRead(
+  id: number
+) {
+
+  const response =
+    await api.put(
+      `/notifications/${id}/read`
+    )
+
+  return response.data
+}
