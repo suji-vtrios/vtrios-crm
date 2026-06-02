@@ -4,7 +4,7 @@ export async function getNotifications() {
 
   const response =
     await api.get(
-      '/notifications'
+      '/notifications/'
     )
 
   return response.data

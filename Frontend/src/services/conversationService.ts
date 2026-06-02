@@ -4,7 +4,7 @@ export async function getConversations() {
 
   const response =
     await api.get(
-      '/conversations'
+      '/conversations/'
     )
 
   return response.data
@@ -16,7 +16,7 @@ export async function createConversation(
 
   const response =
     await api.post(
-      '/conversations',
+      '/conversations/',
       conversation
     )
 

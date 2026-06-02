@@ -4,7 +4,7 @@ export async function getTemplates() {
 
   const response =
     await api.get(
-      '/templates'
+      '/templates/'
     )
 
   return response.data
@@ -16,7 +16,7 @@ export async function createTemplate(
 
   const response =
     await api.post(
-      '/templates',
+      '/templates/',
       template
     )
 
@@ -30,7 +30,7 @@ export async function updateTemplate(
 
   const response =
     await api.put(
-      `/templates/${id}`,
+      `/templates/${id}/`,
       template
     )
 
@@ -43,7 +43,7 @@ export async function deleteTemplate(
 
   const response =
     await api.delete(
-      `/templates/${id}`
+      `/templates/${id}/`
     )
 
   return response.data

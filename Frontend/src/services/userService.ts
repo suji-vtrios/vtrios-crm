@@ -14,7 +14,7 @@ export async function createUser(
 
   const response =
     await api.post(
-      '/users',
+      '/users/',
       user
     )
 
@@ -28,7 +28,7 @@ export async function updateUser(
 
   const response =
     await api.put(
-      `/users/${id}`,
+      `/users/${id}/`,
       user
     )
 
@@ -41,7 +41,7 @@ export async function deleteUser(
 
   const response =
     await api.delete(
-      `/users/${id}`
+      `/users/${id}/`
     )
 
   return response.data
