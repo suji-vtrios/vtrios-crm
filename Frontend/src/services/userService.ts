@@ -5,16 +5,6 @@ export async function getUsers() {
   const response =
     await api.get('/users/')
 
-  console.log(
-    'USER API RESPONSE:',
-    response
-  )
-
-  console.log(
-    'USER API DATA:',
-    response.data
-  )
-
   return response.data
 }
 
