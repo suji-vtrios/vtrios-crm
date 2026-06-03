@@ -289,6 +289,26 @@ function logout() {
         </RouterLink>
 
         <RouterLink
+          v-if="isAdmin"
+          to="/assessment-competencies"
+          class="menu-item"
+        >
+          <i class="pi pi-sliders-h"></i>
+          <span>Assessment Competencies</span>
+        </RouterLink>
+
+        <RouterLink
+          v-if="isAdmin"
+          to="/assessment-questions"
+          class="menu-item"
+        >
+          <i class="pi pi-question-circle"></i>
+          <span>Assessment Questions</span>
+        </RouterLink>
+
+
+
+        <RouterLink
           to="/conversations"
           class="menu-item"
         >
