@@ -132,6 +132,23 @@ function logout() {
 
         </RouterLink>
 
+        <RouterLink
+          v-if="
+            isAdmin
+            ||
+            isCounselor
+          "
+          to="/leads"
+          class="menu-item"
+        >
+
+          <i class="pi pi-users"></i>
+
+          <span>
+            Leads
+          </span>
+
+        </RouterLink>
 
         <RouterLink
           v-if="isAdmin"
@@ -201,21 +218,7 @@ function logout() {
 
         </RouterLink>
 
-
-        <RouterLink
-          v-if="isAdmin"
-          to="/counselors"
-          class="menu-item"
-        >
-
-          <i class="pi pi-id-card"></i>
-
-          <span>
-            Counselors
-          </span>
-
-        </RouterLink>
-
+       
         <RouterLink
 
           v-if="!authStore.user"
