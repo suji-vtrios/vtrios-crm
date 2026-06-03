@@ -39,6 +39,7 @@ from app.models.assessment_category import AssessmentCategory
 from app.models.assessment_subcategory import AssessmentSubcategory
 from app.models.assessment_competency import AssessmentCompetency
 from app.models.assessment_question import AssessmentQuestion
+from app.routes import assessment_categories
 
 
 Base.metadata.create_all(bind=engine)
@@ -153,4 +154,10 @@ app.include_router(
     meta_webhook.router,
     prefix="/meta",
     tags=["Meta"]
+)
+
+app.include_router(
+    assessment_categories.router,
+    prefix="/assessment-categories",
+    tags=["Assessment Categories"]
 )
