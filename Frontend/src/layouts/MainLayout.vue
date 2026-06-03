@@ -263,6 +263,18 @@ function logout() {
         </RouterLink>
 
         <RouterLink
+          v-if="isAdmin"
+          to="/assessment-categories"
+          class="menu-item"
+        >
+          <i class="pi pi-list"></i>
+
+          <span>
+            Assessment Categories
+          </span>
+        </RouterLink>
+
+        <RouterLink
           to="/conversations"
           class="menu-item"
         >
@@ -274,6 +286,8 @@ function logout() {
           </span>
 
         </RouterLink>
+
+        
 
     <div
 
