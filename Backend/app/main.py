@@ -35,6 +35,11 @@ from app.models.conversation import Conversation
 from app.routes import wati
 from app.routes import meta_webhook
 
+from app.models.assessment_category import AssessmentCategory
+from app.models.assessment_subcategory import AssessmentSubcategory
+from app.models.assessment_competency import AssessmentCompetency
+from app.models.assessment_question import AssessmentQuestion
+
 
 Base.metadata.create_all(bind=engine)
 
