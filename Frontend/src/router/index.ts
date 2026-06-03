@@ -219,6 +219,16 @@ createRouter({
           '@/views/AssessmentSubcategoriesView.vue'
         )
     },
+
+    {
+      path:
+      '/assessment-competencies',
+
+      component: () =>
+        import(
+          '@/views/AssessmentCompetenciesView.vue'
+        )
+    },
   ]
 })
 
