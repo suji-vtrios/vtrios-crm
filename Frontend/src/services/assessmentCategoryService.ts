@@ -4,7 +4,7 @@ export async function getCategories() {
 
   const response =
     await api.get(
-      '/assessment-categories'
+      '/assessment-categories/'
     )
 
   return response.data
@@ -16,7 +16,7 @@ export async function createCategory(
 
   const response =
     await api.post(
-      '/assessment-categories',
+      '/assessment-categories/',
       category
     )
 
