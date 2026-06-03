@@ -209,6 +209,16 @@ createRouter({
       component:
         AssessmentCategoriesView
     },
+
+    {
+      path:
+      '/assessment-subcategories',
+
+      component: () =>
+        import(
+          '@/views/AssessmentSubcategoriesView.vue'
+        )
+    },
   ]
 })
 

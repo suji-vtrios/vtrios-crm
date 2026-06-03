@@ -275,6 +275,20 @@ function logout() {
         </RouterLink>
 
         <RouterLink
+          v-if="isAdmin"
+          to="/assessment-subcategories"
+          class="menu-item"
+        >
+
+          <i class="pi pi-sitemap"></i>
+
+          <span>
+            Assessment Subcategories
+          </span>
+
+        </RouterLink>
+
+        <RouterLink
           to="/conversations"
           class="menu-item"
         >
