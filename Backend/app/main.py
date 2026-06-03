@@ -41,6 +41,10 @@ from app.models.assessment_competency import AssessmentCompetency
 from app.models.assessment_question import AssessmentQuestion
 from app.routes import assessment_categories
 
+from app.routes import assessment_subcategories
+from app.routes import assessment_competencies
+from app.routes import assessment_questions
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -160,4 +164,22 @@ app.include_router(
     assessment_categories.router,
     prefix="/assessment-categories",
     tags=["Assessment Categories"]
+)
+
+app.include_router(
+    assessment_subcategories.router,
+    prefix="/assessment-subcategories",
+    tags=["Assessment Subcategories"]
+)
+
+app.include_router(
+    assessment_competencies.router,
+    prefix="/assessment-competencies",
+    tags=["Assessment Competencies"]
+)
+
+app.include_router(
+    assessment_questions.router,
+    prefix="/assessment-questions",
+    tags=["Assessment Questions"]
 )
