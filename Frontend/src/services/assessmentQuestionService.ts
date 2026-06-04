@@ -5,7 +5,7 @@ export const assessmentQuestionService = {
   async getQuestions() {
     const response =
       await api.get(
-        '/assessment-questions'
+        '/assessment-questions/'
       )
 
     return response.data
@@ -16,7 +16,7 @@ export const assessmentQuestionService = {
   ) {
     const response =
       await api.post(
-        '/assessment-questions',
+        '/assessment-questions/',
         payload
       )
 
