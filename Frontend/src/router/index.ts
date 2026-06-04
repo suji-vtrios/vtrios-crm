@@ -229,6 +229,18 @@ createRouter({
           '@/views/AssessmentCompetenciesView.vue'
         )
     },
+    {
+      path:
+        '/assessment-questions',
+
+      name:
+        'assessment-questions',
+
+      component: () =>
+        import(
+          '@/views/AssessmentQuestionsView.vue'
+        )
+    },
   ]
 })
 
