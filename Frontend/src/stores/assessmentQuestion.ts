@@ -14,7 +14,7 @@ defineStore(
 
     state: () => ({
 
-      questions: []
+      questions: [] as any[]
 
     }),
 
