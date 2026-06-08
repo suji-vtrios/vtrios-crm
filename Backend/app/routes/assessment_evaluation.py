@@ -137,3 +137,36 @@ def evaluate_assessment(
         "recommendation":
         recommendation
     }
+
+@router.get("/{session_id}")
+def get_result(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    session = (
+        db.query(
+            AssessmentSession
+        )
+        .filter(
+            AssessmentSession.id
+            ==
+            session_id
+        )
+        .first()
+    )
+
+    return {
+
+        "session_id":
+        session.id,
+
+        "score":
+        session.overall_score,
+
+        "recommendation":
+        session.recommendation,
+
+        "status":
+        session.status
+    }

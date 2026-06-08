@@ -46,6 +46,9 @@ from '@/views/AssessmentCategoriesView.vue'
 import AssessmentSessionView
 from '@/views/AssessmentSessionView.vue'
 
+import AssessmentResultView
+from '@/views/AssessmentResultView.vue'
+
 const router =
 createRouter({
 
@@ -253,6 +256,16 @@ createRouter({
 
       component:
         AssessmentSessionView
+    },
+    {
+      path:
+        '/assessment-result/:sessionId',
+
+      name:
+        'AssessmentResult',
+
+      component:
+        AssessmentResultView
     },
   ]
 })

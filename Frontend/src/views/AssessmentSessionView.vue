@@ -34,6 +34,19 @@ import {
 }
 from '@/stores/assessmentResponse'
 
+import {
+  useRouter
+}
+from 'vue-router'
+
+import {
+  assessmentEvaluationService
+}
+from '@/services/assessmentEvaluationService'
+
+const router =
+  useRouter()
+
 const responseStore =
   useAssessmentResponseStore()
 
@@ -106,9 +119,14 @@ async function nextQuestion() {
 
   } else {
 
-    alert(
-      'Assessment Completed'
-    )
+    await assessmentEvaluationService
+        .evaluate(
+            Number(sessionId)
+        )
+
+        router.push(
+        `/assessment-result/${sessionId}`
+        )
 
   }
 }
