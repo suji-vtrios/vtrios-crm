@@ -159,8 +159,12 @@ async function startAssessment(
         'Pending'
     })
 
-  alert(
-    'Assessment session created'
+  const session =
+    await assessmentStore
+      .addSession(...)
+
+  router.push(
+    `/assessment-session/${session.id}`
   )
 }
 
