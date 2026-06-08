@@ -29,6 +29,14 @@ import {
   onMounted
 } from 'vue'
 
+import {
+  useAssessmentResponseStore
+}
+from '@/stores/assessmentResponse'
+
+const responseStore =
+  useAssessmentResponseStore()
+
 const questionStore =
   useAssessmentQuestionStore()
 
@@ -63,7 +71,26 @@ function continueAssessment() {
     true
 }
 
-function nextQuestion() {
+async function nextQuestion() {
+
+  const question =
+
+    questionStore.questions[
+      currentQuestion.value
+    ]
+
+  await responseStore
+    .addResponse({
+
+      session_id:
+        Number(sessionId),
+
+      question_id:
+        question.id,
+
+      response:
+        answer.value
+    })
 
   if (
 
