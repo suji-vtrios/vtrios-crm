@@ -18,6 +18,36 @@ from 'primevue/button'
 import RadioButton
 from 'primevue/radiobutton'
 
+import Textarea
+from 'primevue/textarea'
+
+import {
+  useAssessmentQuestionStore
+} from '@/stores/assessmentQuestion'
+
+import {
+  onMounted
+} from 'vue'
+
+const questionStore =
+  useAssessmentQuestionStore()
+
+const currentQuestion =
+  ref(0)
+
+const startedAssessment =
+  ref(false)
+
+const answer =
+  ref('')
+
+onMounted(async () => {
+
+  await questionStore
+    .loadQuestions()
+
+})
+
 const route =
   useRoute()
 
@@ -29,13 +59,31 @@ const selectedSector =
 
 function continueAssessment() {
 
-  alert(
+  startedAssessment.value =
+    true
+}
 
-    `Session ${sessionId}
-     Sector:
-     ${selectedSector.value}`
+function nextQuestion() {
 
-  )
+  if (
+
+    currentQuestion.value <
+
+    questionStore.questions.length - 1
+
+  ) {
+
+    currentQuestion.value++
+
+    answer.value = ''
+
+  } else {
+
+    alert(
+      'Assessment Completed'
+    )
+
+  }
 }
 
 </script>
@@ -54,113 +102,112 @@ function continueAssessment() {
 
     <template #content>
 
-      <h3>
+  <h3>
+    Welcome to Vtrios Assessment
+  </h3>
 
-        Welcome to Vtrios
-        Assessment
+  <p>
+    Session ID: {{ sessionId }}
+  </p>
 
-      </h3>
+  <div
+    v-if="!startedAssessment"
+    class="sector-group"
+  >
 
-      <p>
+    <div>
 
-        Session ID:
-        {{ sessionId }}
-
-      </p>
-
-      <div
-        class="sector-group"
-      >
-
-        <div>
-
-          <RadioButton
-            v-model="
-              selectedSector
-            "
-            inputId="arch"
-            value="Architecture"
-          />
-
-          <label for="arch">
-
-            Architecture
-
-          </label>
-
-        </div>
-
-        <div>
-
-          <RadioButton
-            v-model="
-              selectedSector
-            "
-            inputId="struct"
-            value="Structure"
-          />
-
-          <label
-            for="struct"
-          >
-
-            Structure
-
-          </label>
-
-        </div>
-
-        <div>
-
-          <RadioButton
-            v-model="
-              selectedSector
-            "
-            inputId="mep"
-            value="MEP"
-          />
-
-          <label for="mep">
-
-            MEP
-
-          </label>
-
-        </div>
-
-        <div>
-
-          <RadioButton
-            v-model="
-              selectedSector
-            "
-            inputId="const"
-            value="Construction"
-          />
-
-          <label
-            for="const"
-          >
-
-            Construction
-
-          </label>
-
-        </div>
-
-      </div>
-
-      <Button
-
-        label="Continue"
-
-        @click="
-          continueAssessment
-        "
-
+      <RadioButton
+        v-model="selectedSector"
+        inputId="arch"
+        value="Architecture"
       />
 
-    </template>
+      <label for="arch">
+        Architecture
+      </label>
+
+    </div>
+
+    <div>
+
+      <RadioButton
+        v-model="selectedSector"
+        inputId="struct"
+        value="Structure"
+      />
+
+      <label for="struct">
+        Structure
+      </label>
+
+    </div>
+
+    <div>
+
+      <RadioButton
+        v-model="selectedSector"
+        inputId="mep"
+        value="MEP"
+      />
+
+      <label for="mep">
+        MEP
+      </label>
+
+    </div>
+
+    <div>
+
+      <RadioButton
+        v-model="selectedSector"
+        inputId="const"
+        value="Construction"
+      />
+
+      <label for="const">
+        Construction
+      </label>
+
+    </div>
+
+    <Button
+      label="Continue"
+      @click="continueAssessment"
+    />
+
+  </div>
+
+  <div
+    v-else
+  >
+
+    <h3>
+      Question {{ currentQuestion + 1 }}
+    </h3>
+
+    <p>
+      {{
+        questionStore.questions[
+          currentQuestion
+        ]?.question
+      }}
+    </p>
+
+    <Textarea
+      v-model="answer"
+      rows="5"
+      style="width:100%"
+    />
+
+    <Button
+      label="Next"
+      @click="nextQuestion"
+    />
+
+  </div>
+
+</template>
 
   </Card>
 
