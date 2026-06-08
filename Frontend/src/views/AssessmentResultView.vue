@@ -65,42 +65,38 @@ onMounted(async () => {
 
     <template #content>
 
-      <div
-        v-if="result"
-      >
+      <div v-if="result">
 
         <h2>
-
-          Assessment Completed
-
+            Assessment Completed
         </h2>
 
-        <h3>
-
-          Score:
-          {{ result.score }}
-
-        </h3>
-
-        <h3>
-
-          Recommended Course
-
-        </h3>
+        <p>
+            Status:
+            <strong>
+            {{ result.status }}
+            </strong>
+        </p>
 
         <p>
+            Score:
+            <strong>
+            {{ result.score }}
+            </strong>
+        </p>
 
-          {{
-            result.recommendation
-          }}
-
+        <p>
+            Recommended Course:
+            <strong>
+            {{ result.recommendation }}
+            </strong>
         </p>
 
         <Button
-          label="Enroll Now"
+            label="Enroll Now"
         />
 
-      </div>
+        </div>
 
     </template>
 
