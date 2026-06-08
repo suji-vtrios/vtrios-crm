@@ -50,9 +50,6 @@ const courseStore =
 
 const userStore = useUserStore()
 
-onMounted(async () => {
-  await userStore.loadUsers()
-})
 
 const counselors = computed(() =>
   userStore.users.filter(
@@ -227,11 +224,11 @@ function closeDialog() {
 
 onMounted(async () => {
 
-  await leadStore
-    .loadLeads()
+  await userStore.loadUsers()
 
-  await courseStore
-    .loadCourses()
+  await leadStore.loadLeads()
+
+  await courseStore.loadCourses()
 
 })
 </script>
@@ -454,6 +451,17 @@ onMounted(async () => {
               >
 
                 <Button
+                  icon="pi pi-file-edit"
+                  severity="info"
+                  rounded
+                  @click="
+                    startAssessment(
+                      slotProps.data
+                    )
+                  "
+                />
+                
+                <Button
 
                   icon="pi pi-pencil"
 
@@ -497,7 +505,10 @@ onMounted(async () => {
 
     <Dialog
 
-      v-model:visible="dialogVisible" modal: style= "{ width: '500px'}"
+      <Dialog
+        v-model:visible="dialogVisible"
+        modal
+        :style="{ width: '500px' }"
 
       :header="
 
@@ -623,17 +634,7 @@ onMounted(async () => {
       </div>
 
     </Dialog>
-    <Button
-      icon="pi pi-file-edit"
-      severity="info"
-      rounded
-      @click="
-        startAssessment(
-          slotProps.data
-        )
-      "
-    />
-
+    
   </MainLayout>
 
 </template>
