@@ -41,6 +41,13 @@ import {
   useAssessmentSessionStore
 } from '@/stores/assessmentSession'
 
+import {
+  useRouter
+} from 'vue-router'
+
+const router =
+  useRouter()
+
 
 const leadStore =
   useLeadStore()
@@ -146,21 +153,22 @@ async function startAssessment(
   lead: any
 ) {
 
-  await assessmentStore
-    .addSession({
+  const session =
+    await assessmentStore
+      .addSession({
 
-      lead_id:
-        lead.id,
+        lead_id:
+          lead.id,
 
-      specialization:
-        'Architecture',
+        specialization:
+          'Architecture',
 
-      status:
-        'Pending'
-    })
+        status:
+          'Pending'
+      })
 
-  alert(
-    'Assessment session created'
+  router.push(
+    `/assessment-session/${session.id}`
   )
 }
 
@@ -504,8 +512,6 @@ onMounted(async () => {
     </Card>
 
     <Dialog
-
-      <Dialog
         v-model:visible="dialogVisible"
         modal
         :style="{ width: '500px' }"
@@ -514,13 +520,8 @@ onMounted(async () => {
 
         editingLeadId
 
-        ?
-
-        'Edit Lead'
-
-        :
-
-        'Add Lead'
+        ? 'Edit Lead'
+        : 'Add Lead'
       "
     >
 

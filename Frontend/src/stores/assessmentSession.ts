@@ -28,16 +28,18 @@ defineStore(
         await getSessions()
     }
 
-    async function
-    addSession(
-      payload: any
+    async function addSession(
+        payload: any
     ) {
 
-      await createSession(
-        payload
-      )
+        const session =
+            await createSession(
+                payload
+        )
 
-      await loadSessions()
+        await loadSessions()
+
+        return session
     }
 
     return {

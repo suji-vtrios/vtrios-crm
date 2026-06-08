@@ -45,6 +45,12 @@ from app.routes import assessment_subcategories
 from app.routes import assessment_competencies
 from app.routes import assessment_questions
 from app.routes import (assessment_sessions)
+from app.models.assessment_response import (
+    AssessmentResponse
+)
+from app.routes import (
+    assessment_responses
+)
 
 Base.metadata.create_all(bind=engine)
 
@@ -188,4 +194,10 @@ app.include_router(
     assessment_sessions.router,
     prefix="/assessment-sessions",
     tags=["Assessment Sessions"]
+)
+
+app.include_router(
+    assessment_responses.router,
+    prefix="/assessment-responses",
+    tags=["Assessment Responses"]
 )
