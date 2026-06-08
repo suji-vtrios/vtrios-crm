@@ -37,6 +37,10 @@ from '@/stores/course'
 import { useUserStore } from '@/stores/user'
 import { computed, onMounted } from 'vue'
 
+import {
+  useAssessmentSessionStore
+} from '@/stores/assessmentSession'
+
 
 const leadStore =
   useLeadStore()
@@ -55,6 +59,9 @@ const counselors = computed(() =>
     user => user.role === 'Counselor'
   )
 )
+
+const assessmentStore =
+  useAssessmentSessionStore()
 
 const dialogVisible =
   ref(false)
@@ -136,6 +143,28 @@ async function saveLead() {
   }
 
   closeDialog()
+}
+
+async function startAssessment(
+  lead: any
+) {
+
+  await assessmentStore
+    .addSession({
+
+      lead_id:
+        lead.id,
+
+      specialization:
+        'Architecture',
+
+      status:
+        'Pending'
+    })
+
+  alert(
+    'Assessment session created'
+  )
 }
 
 function openAddDialog() {
@@ -594,6 +623,16 @@ onMounted(async () => {
       </div>
 
     </Dialog>
+    <Button
+      icon="pi pi-file-edit"
+      severity="info"
+      rounded
+      @click="
+        startAssessment(
+          slotProps.data
+        )
+      "
+    />
 
   </MainLayout>
 
