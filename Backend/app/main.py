@@ -64,6 +64,14 @@ from app.routes import (
     assessment_reports
 )
 
+from app.models.assessment_conversation import (
+    AssessmentConversation
+)
+
+from app.routes import (
+    assessment_conversations
+)
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -224,4 +232,12 @@ app.include_router(
     assessment_reports.router,
     prefix="/assessment-reports",
     tags=["Assessment Reports"]
+)
+
+app.include_router(
+    assessment_conversations.router,
+    prefix="/assessment-conversations",
+    tags=[
+        "Assessment Conversations"
+    ]
 )

@@ -57,8 +57,8 @@ async function enrollStudent() {
         )
       )
 
-  alert(
-    'Student Created'
+  router.push(
+    `/students`
   )
 
   console.log(student)
