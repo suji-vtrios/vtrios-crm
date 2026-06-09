@@ -71,18 +71,18 @@ def start_assessment(
 
         db=db,
 
-        session_id=session_id,
+        session_id=session.id,
 
         question_id=question.id,
 
-        role="assistant",
+        role="user",
 
-        message=question.question,
+        message=message,
 
         sequence_no=
         get_next_sequence(
             db,
-            session_id
+            session.id
         )
     )
 
@@ -141,7 +141,7 @@ def reply(
 
             db=db,
 
-            session_id=payload.session_id,
+            session_id=session.id,
 
             question_id=None,
 
@@ -149,16 +149,14 @@ def reply(
         )
 
         return {
-
-            "completed":
-            True
+            "completed": True
         }
     
     update_session_progress(
 
         db=db,
 
-        session_id=payload.session_id,
+        session_id=session.id,
 
         question_id=next_question.id,
 

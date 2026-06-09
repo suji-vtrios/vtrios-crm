@@ -16,18 +16,37 @@ from app.services.assessment_question_service import (
     get_question_by_id
 )
 
+from app.schemas.wati_assessment import (
+    WatiAssessmentMessage
+)
+
+from app.services.assessment_conversation_service import (
+    save_message,
+    get_next_question,
+    get_next_sequence
+)
+
+from app.services.assessment_session_service import (
+    get_active_session,
+    update_session_progress
+)
+
 router = APIRouter()
 
 
 @router.post("/webhook")
 async def webhook(
-    payload: dict,
+    payload: WatiAssessmentMessage,
     db: Session = Depends(get_db)
 ):
 
-    phone = payload.get("phone")
+    phone = payload.phone
+
+    message = payload.message
 
     print("PHONE =", phone)
+
+    print("MESSAGE =", message)
 
     lead = get_lead_by_phone(
         db,
