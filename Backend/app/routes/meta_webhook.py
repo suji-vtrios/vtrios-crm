@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 from app.config import settings
 import json
+from app.models.assessment_session import (
+    AssessmentSession
+)
 
 router = APIRouter()
 
@@ -54,15 +57,10 @@ def test_lead(
 ):
 
     lead = Lead(
-
         name="Meta Test Lead",
-
         email="test@vtrios.com",
-
         phone="918891393010",
-
         source="Meta Test",
-
         status="New"
     )
 
@@ -72,4 +70,26 @@ def test_lead(
 
     db.refresh(lead)
 
-    return lead
+    session = AssessmentSession(
+
+        lead_id=lead.id,
+
+        specialization="Architecture",
+
+        status="Pending"
+    )
+
+    db.add(session)
+
+    db.commit()
+
+    db.refresh(session)
+
+    return {
+
+        "lead_id":
+        lead.id,
+
+        "session_id":
+        session.id
+    }
