@@ -66,7 +66,7 @@ def get_transcript(
 
 def get_next_question(
     db,
-    sequence_no
+    current_question_id
 ):
 
     return (
@@ -75,12 +75,13 @@ def get_next_question(
             AssessmentQuestion
         )
 
-        .order_by(
-            AssessmentQuestion.id
+        .filter(
+            AssessmentQuestion.id >
+            current_question_id
         )
 
-        .offset(
-            sequence_no
+        .order_by(
+            AssessmentQuestion.id
         )
 
         .first()
