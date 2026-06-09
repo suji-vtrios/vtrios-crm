@@ -6,6 +6,8 @@ from app.models.assessment_question import (
     AssessmentQuestion
 )
 
+from sqlalchemy import func
+
 
 def save_message(
     db,
@@ -86,3 +88,28 @@ def get_next_question(
 
         .first()
     )
+
+def get_next_sequence(
+    db,
+    session_id
+):
+
+    last = (
+
+        db.query(
+            func.max(
+                AssessmentConversation
+                .sequence_no
+            )
+        )
+
+        .filter(
+            AssessmentConversation
+            .session_id
+            == session_id
+        )
+
+        .scalar()
+    )
+
+    return (last or 0) + 1

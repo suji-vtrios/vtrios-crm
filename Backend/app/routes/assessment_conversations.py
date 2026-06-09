@@ -22,6 +22,13 @@ from app.services.assessment_conversation_service import (
     get_transcript
 )
 
+from app.services.assessment_conversation_service import (
+    save_message,
+    get_next_question,
+    get_next_sequence,
+    get_transcript
+)
+
 router = APIRouter()
 
 
@@ -66,7 +73,11 @@ def start_assessment(
 
         message=question.question,
 
-        sequence_no=1
+        sequence_no=
+        get_next_sequence(
+            db,
+            session_id
+        )
     )
 
     return {
@@ -103,7 +114,11 @@ def reply(
         message=
         payload.answer,
 
-        sequence_no=2
+        sequence_no=
+        get_next_sequence(
+            db,
+            payload.session_id
+        )
     )
 
     next_question = (
@@ -136,7 +151,11 @@ def reply(
         message=
         next_question.question,
 
-        sequence_no=3
+        sequence_no=
+        get_next_sequence(
+            db,
+            payload.session_id
+        )
     )
 
     return {
