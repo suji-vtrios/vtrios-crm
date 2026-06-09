@@ -21,11 +21,27 @@ import {
 }
 from '@/stores/assessmentReport'
 
+import Button
+from 'primevue/button'
+
+import {
+  assessmentEnrollmentService
+}
+from '@/services/assessmentEnrollmentService'
+
+
 const route =
   useRoute()
 
 const reportStore =
   useAssessmentReportStore()
+
+function enrollStudent() {
+
+  alert(
+    'Enroll functionality coming next'
+  )
+}
 
 onMounted(async () => {
 
@@ -36,6 +52,25 @@ onMounted(async () => {
       )
     )
 })
+
+async function enrollStudent() {
+
+  const student =
+
+    await assessmentEnrollmentService
+      .enroll(
+        Number(
+          route.params.id
+        )
+      )
+
+  alert(
+    'Student Created'
+  )
+
+  console.log(student)
+
+}
 
 </script>
 
@@ -91,6 +126,10 @@ Feedback:
 {{ reportStore.report.gpt_feedback }}
 
 </p>
+<Button
+  label="Enroll Now"
+  @click="enrollStudent"
+/>
 
 </div>
 
