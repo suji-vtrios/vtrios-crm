@@ -1,6 +1,8 @@
 <script setup lang="ts">
 
-import { ref }
+import {
+  onMounted
+}
 from 'vue'
 
 import {
@@ -8,45 +10,31 @@ import {
 }
 from 'vue-router'
 
-import {
-  onMounted
-}
-from 'vue'
-
 import MainLayout
 from '@/layouts/MainLayout.vue'
 
 import Card
 from 'primevue/card'
 
-import Button
-from 'primevue/button'
-
 import {
-  assessmentEvaluationService
+  useAssessmentReportStore
 }
-from '@/services/assessmentEvaluationService'
+from '@/stores/assessmentReport'
 
 const route =
   useRoute()
 
-const sessionId =
-  Number(
-    route.params.sessionId
-  )
-
-const result =
-  ref<any>(null)
+const reportStore =
+  useAssessmentReportStore()
 
 onMounted(async () => {
 
-  result.value =
-
-    await assessmentEvaluationService
-      .getResult(
-        sessionId
+  await reportStore
+    .loadReport(
+      Number(
+        route.params.id
       )
-
+    )
 })
 
 </script>
@@ -55,52 +43,60 @@ onMounted(async () => {
 
 <MainLayout>
 
-  <Card>
+<Card>
 
-    <template #title>
+<template #title>
 
-      Assessment Result
+Assessment Result
 
-    </template>
+</template>
 
-    <template #content>
+<template #content>
 
-      <div v-if="result">
+<div
+v-if="reportStore.report"
+>
 
-        <h2>
-            Assessment Completed
-        </h2>
+<h2>
 
-        <p>
-            Status:
-            <strong>
-            {{ result.status }}
-            </strong>
-        </p>
+Score:
+{{ reportStore.report.overall_score }}
 
-        <p>
-            Score:
-            <strong>
-            {{ result.score }}
-            </strong>
-        </p>
+</h2>
 
-        <p>
-            Recommended Course:
-            <strong>
-            {{ result.recommendation }}
-            </strong>
-        </p>
+<p>
 
-        <Button
-            label="Enroll Now"
-        />
+Recommendation:
+{{ reportStore.report.recommendation }}
 
-        </div>
+</p>
 
-    </template>
+<p>
 
-  </Card>
+Strengths:
+{{ reportStore.report.strengths }}
+
+</p>
+
+<p>
+
+Weaknesses:
+{{ reportStore.report.weaknesses }}
+
+</p>
+
+<p>
+
+Feedback:
+{{ reportStore.report.gpt_feedback }}
+
+</p>
+
+</div>
+
+</template>
+
+</Card>
 
 </MainLayout>
 

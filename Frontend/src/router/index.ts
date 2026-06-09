@@ -52,6 +52,9 @@ from '@/views/AssessmentResultView.vue'
 import AssessmentSessionsView
 from '@/views/AssessmentSessionsView.vue'
 
+import AssessmentResultView
+from '@/views/AssessmentResultView.vue'
+
 const router =
 createRouter({
 
@@ -279,6 +282,13 @@ createRouter({
 
       component:
         AssessmentSessionsView
+    },
+    {
+      path:
+        '/assessment-result/:id',
+
+      component:
+        AssessmentResultView
     },
   ]
 })
