@@ -59,8 +59,12 @@ def send_text_message(
 
     url = (
         f"{settings.WATI_API_URL}"
-        "/api/v1/sendSessionMessage"
+        f"/api/v1/sendSessionMessage/{phone}"
     )
+
+    payload = {
+        "messageText": message
+    }
 
     headers = {
 
@@ -89,6 +93,7 @@ def send_text_message(
         headers=headers
     )
 
+    print("URL =", url)
     print("WATI STATUS:", response.status_code)
     print("WATI RESPONSE:", response.text)
 
