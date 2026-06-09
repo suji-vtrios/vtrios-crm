@@ -82,18 +82,87 @@ async def webhook(
         session.current_question_id
     )
 
+    save_message(
+
+        db=db,
+
+        session_id=session.id,
+
+        question_id=question.id,
+
+        role="user",
+
+        message=message,
+
+        sequence_no=
+        get_next_sequence(
+            db,
+            session.id
+        )
+    )
+
+    next_question = get_next_question(
+        db,
+        question.id
+    )
+
+    if not next_question:
+
+        update_session_progress(
+
+            db=db,
+
+            session_id=session.id,
+
+            question_id=None,
+
+            status="Completed"
+        )
+
+        return {
+
+            "completed":
+            True
+        }
+
+    update_session_progress(
+
+        db=db,
+
+        session_id=session.id,
+
+        question_id=next_question.id,
+
+        status="In Progress"
+    )
+
+    save_message(
+
+        db=db,
+
+        session_id=session.id,
+
+        question_id=next_question.id,
+
+        role="assistant",
+
+        message=next_question.question,
+
+        sequence_no=
+        get_next_sequence(
+            db,
+            session.id
+        )
+    )
 
     return {
 
-        "lead_id":
-        lead.id,
-
-        "session_id":
-        session.id,
+        "completed":
+        False,
 
         "question_id":
-        question.id,
+        next_question.id,
 
         "question":
-        question.question
+        next_question.question
     }
