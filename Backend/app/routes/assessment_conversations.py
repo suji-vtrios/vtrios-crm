@@ -18,6 +18,10 @@ from app.services.assessment_conversation_service import (
     get_next_question
 )
 
+from app.services.assessment_conversation_service import (
+    get_transcript
+)
+
 router = APIRouter()
 
 
@@ -146,3 +150,14 @@ def reply(
         "question":
         next_question.question
     }
+
+@router.get("/{session_id}")
+def transcript(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    return get_transcript(
+        db,
+        session_id
+    )
