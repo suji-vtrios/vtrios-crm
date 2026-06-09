@@ -23,10 +23,17 @@ async def webhook(
 
     phone = payload.get("phone")
 
+    print("PHONE =", phone)
+
     lead = get_lead_by_phone(
         db,
         phone
     )
+
+    print("LEAD =", lead)
+
+    if lead:
+        print("LEAD ID =", lead.id)
 
     if not lead:
 
@@ -38,6 +45,8 @@ async def webhook(
         db,
         lead.id
     )
+
+    print("SESSION =", session)
 
     if not session:
 
