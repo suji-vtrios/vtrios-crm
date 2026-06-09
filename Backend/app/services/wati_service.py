@@ -92,4 +92,7 @@ def send_text_message(
     print("WATI STATUS:", response.status_code)
     print("WATI RESPONSE:", response.text)
 
-    return response.json()
+    return {
+        "status_code": response.status_code,
+        "response": response.text
+    }
