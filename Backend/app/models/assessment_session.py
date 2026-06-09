@@ -31,3 +31,18 @@ class AssessmentSession(Base):
     )
 
     recommendation = Column(String)
+
+    current_question_id = Column(
+        Integer,
+        nullable=True
+    )
+
+    assessment_status = Column(
+        String,
+        default="Not Started"
+    )
+
+    assessment_type = Column(
+        String,
+        default="Portal"
+    )
