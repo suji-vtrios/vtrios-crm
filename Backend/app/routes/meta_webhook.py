@@ -85,6 +85,15 @@ def test_lead(
 
     db.refresh(session)
 
+    from app.services.wati_service import (
+        send_welcome_message
+    )
+
+    send_welcome_message(
+        lead.phone,
+        lead.name
+    )
+
     return {
 
         "lead_id":
