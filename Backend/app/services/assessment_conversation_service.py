@@ -2,50 +2,86 @@ from app.models.assessment_conversation import (
     AssessmentConversation
 )
 
-QUESTIONS = [
-
-    "What is your educational background?",
-
-    "Which BIM software have you used?",
-
-    "Have you worked with Revit?",
-
-    "Have you created Revit Families?",
-
-    "Have you used Navisworks?",
-
-    "Have you worked on live projects?",
-
-    "Have you done clash detection?",
-
-    "Have you used BIM 360 or ACC?",
-
-    "What is your career goal?",
-
-    "Why do you want to learn BIM?"
-]
+from app.models.assessment_question import (
+    AssessmentQuestion
+)
 
 
 def save_message(
     db,
     session_id,
+    question_id,
     role,
     message,
-    question_number
+    sequence_no
 ):
 
     item = AssessmentConversation(
 
         session_id=session_id,
 
+        question_id=question_id,
+
         role=role,
 
         message=message,
 
-        question_number=
-        question_number
+        sequence_no=sequence_no
     )
 
     db.add(item)
 
     db.commit()
+
+    db.refresh(item)
+
+    return item
+
+
+def get_transcript(
+    db,
+    session_id
+):
+
+    return (
+
+        db.query(
+            AssessmentConversation
+        )
+
+        .filter(
+            AssessmentConversation
+            .session_id
+            == session_id
+        )
+
+        .order_by(
+            AssessmentConversation
+            .sequence_no
+        )
+
+        .all()
+    )
+
+
+def get_next_question(
+    db,
+    sequence_no
+):
+
+    return (
+
+        db.query(
+            AssessmentQuestion
+        )
+
+        .order_by(
+            AssessmentQuestion.id
+        )
+
+        .offset(
+            sequence_no
+        )
+
+        .first()
+    )
