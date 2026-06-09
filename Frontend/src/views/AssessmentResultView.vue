@@ -36,6 +36,16 @@ const route =
 const reportStore =
   useAssessmentReportStore()
 
+onMounted(async () => {
+
+  await reportStore
+    .loadReport(
+      Number(
+        route.params.id
+      )
+    )
+})
+
 async function enrollStudent() {
 
   const student =
