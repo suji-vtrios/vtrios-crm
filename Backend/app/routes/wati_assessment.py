@@ -12,6 +12,10 @@ from app.services.assessment_session_service import (
     get_active_session
 )
 
+from app.services.assessment_question_service import (
+    get_question_by_id
+)
+
 router = APIRouter()
 
 
@@ -54,6 +58,19 @@ async def webhook(
             "status": "session not found"
         }
 
+    question = get_question_by_id(
+        db,
+        session.current_question_id
+    )
+
+    print("SESSION =", session)
+
+    if not session:
+
+        return {
+            "status": "session not found"
+        }
+
     return {
 
         "lead_id":
@@ -62,9 +79,9 @@ async def webhook(
         "session_id":
         session.id,
 
-        "current_question_id":
-        session.current_question_id,
+        "question_id":
+        question.id,
 
-        "assessment_status":
-        session.assessment_status
+        "question":
+        question.question
     }
