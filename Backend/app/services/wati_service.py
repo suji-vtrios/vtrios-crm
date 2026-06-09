@@ -59,12 +59,8 @@ def send_text_message(
 
     url = (
         f"{settings.WATI_API_URL}"
-        f"/api/v1/sendSessionMessage/{phone}"
+        "/api/ext/v3/conversations/messages/text"
     )
-
-    payload = {
-        "messageText": message
-    }
 
     headers = {
 
@@ -77,10 +73,10 @@ def send_text_message(
 
     payload = {
 
-        "phone":
+        "whatsappNumber":
         phone,
 
-        "message":
+        "text":
         message
     }
 
@@ -94,10 +90,15 @@ def send_text_message(
     )
 
     print("URL =", url)
-    print("WATI STATUS:", response.status_code)
-    print("WATI RESPONSE:", response.text)
+    print("PAYLOAD =", payload)
+    print("WATI STATUS =", response.status_code)
+    print("WATI RESPONSE =", response.text)
 
     return {
-        "status_code": response.status_code,
-        "response": response.text
+
+        "status_code":
+        response.status_code,
+
+        "response":
+        response.text
     }
