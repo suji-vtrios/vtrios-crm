@@ -63,13 +63,6 @@ async def webhook(
         session.current_question_id
     )
 
-    print("SESSION =", session)
-
-    if not session:
-
-        return {
-            "status": "session not found"
-        }
 
     return {
 
