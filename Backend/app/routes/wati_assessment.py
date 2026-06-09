@@ -1,17 +1,61 @@
 from fastapi import APIRouter
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from app.dependencies import get_db
+
+from app.services.lead_service import (
+    get_lead_by_phone
+)
+
+from app.services.assessment_session_service import (
+    get_active_session
+)
 
 router = APIRouter()
 
 
 @router.post("/webhook")
 async def webhook(
-    payload: dict
+    payload: dict,
+    db: Session = Depends(get_db)
 ):
 
-    print("=" * 50)
-    print(payload)
-    print("=" * 50)
+    phone = payload.get("phone")
+
+    lead = get_lead_by_phone(
+        db,
+        phone
+    )
+
+    if not lead:
+
+        return {
+            "status": "lead not found"
+        }
+
+    session = get_active_session(
+        db,
+        lead.id
+    )
+
+    if not session:
+
+        return {
+            "status": "session not found"
+        }
 
     return {
-        "status": "received"
+
+        "lead_id":
+        lead.id,
+
+        "session_id":
+        session.id,
+
+        "current_question_id":
+        session.current_question_id,
+
+        "assessment_status":
+        session.assessment_status
     }
