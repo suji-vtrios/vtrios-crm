@@ -16,6 +16,9 @@ from app.models.assessment_response import (
 from app.models.assessment_question import (
     AssessmentQuestion
 )
+from app.models.assessment_report import (
+    AssessmentReport
+)
 
 router = APIRouter()
 
@@ -126,6 +129,40 @@ def evaluate_assessment(
     session.status = (
         "Completed"
     )
+
+    existing_report = (
+        db.query(
+            AssessmentReport
+        )
+        .filter(
+            AssessmentReport.session_id
+            == session_id
+        )
+        .first()
+    )
+
+    if not existing_report:
+
+        report = AssessmentReport(
+
+            session_id=session_id,
+
+            overall_score=total_score,
+
+            strengths=
+            "Basic BIM Knowledge",
+
+            weaknesses=
+            "Needs Further Assessment",
+
+            recommendation=
+            recommendation,
+
+            gpt_feedback=
+            "Rule based evaluation"
+        )
+
+        db.add(report)
 
     db.commit()
 

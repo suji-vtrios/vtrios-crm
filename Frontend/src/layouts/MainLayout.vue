@@ -321,6 +321,12 @@ function logout() {
 
         </RouterLink>
 
+        <router-link
+          to="/assessment-sessions"
+        >
+          Assessment Sessions
+        </router-link>
+
         
 
     <div
