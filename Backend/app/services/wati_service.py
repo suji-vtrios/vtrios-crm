@@ -51,3 +51,45 @@ def send_welcome_message(phone, customer_name):
     }
 
     return response.json()
+
+def send_text_message(
+    phone,
+    message
+):
+
+    url = (
+        f"{settings.WATI_API_URL}"
+        "/api/v1/sendSessionMessage"
+    )
+
+    headers = {
+
+        "Authorization":
+        f"Bearer {settings.WATI_API_KEY}",
+
+        "Content-Type":
+        "application/json"
+    }
+
+    payload = {
+
+        "phone":
+        phone,
+
+        "message":
+        message
+    }
+
+    response = requests.post(
+
+        url,
+
+        json=payload,
+
+        headers=headers
+    )
+
+    print("WATI STATUS:", response.status_code)
+    print("WATI RESPONSE:", response.text)
+
+    return response.json()

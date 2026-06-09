@@ -31,6 +31,10 @@ from app.services.assessment_session_service import (
     update_session_progress
 )
 
+from app.services.wati_service import (
+    send_text_message
+)
+
 router = APIRouter()
 
 
@@ -166,3 +170,13 @@ async def webhook(
         "question":
         next_question.question
     }
+
+@router.get("/test-message")
+def test_message():
+
+    return send_text_message(
+
+        phone="918891393010",
+
+        message="Vtrios AI Assessment Test Message"
+    )
