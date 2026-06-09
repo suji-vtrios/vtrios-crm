@@ -73,7 +73,7 @@ def send_text_message(
 
     payload = {
 
-        "whatsappNumber":
+        "target":
         phone,
 
         "text":
