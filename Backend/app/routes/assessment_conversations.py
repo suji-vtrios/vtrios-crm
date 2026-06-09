@@ -15,18 +15,13 @@ from app.schemas.assessment_conversation import (
 
 from app.services.assessment_conversation_service import (
     save_message,
-    get_next_question
-)
-
-from app.services.assessment_conversation_service import (
-    get_transcript
-)
-
-from app.services.assessment_conversation_service import (
-    save_message,
     get_next_question,
     get_next_sequence,
     get_transcript
+)
+
+from app.services.assessment_session_service import (
+    update_session_progress
 )
 
 router = APIRouter()
@@ -59,6 +54,17 @@ def start_assessment(
         )
 
         .first()
+    )
+
+    update_session_progress(
+
+        db=db,
+
+        session_id=session_id,
+
+        question_id=question.id,
+
+        status="In Progress"
     )
 
     save_message(
@@ -121,6 +127,7 @@ def reply(
         )
     )
 
+    
     next_question = (
         get_next_question(
             db,
@@ -130,11 +137,33 @@ def reply(
 
     if not next_question:
 
+        update_session_progress(
+
+            db=db,
+
+            session_id=payload.session_id,
+
+            question_id=None,
+
+            status="Completed"
+        )
+
         return {
 
             "completed":
             True
         }
+    
+    update_session_progress(
+
+        db=db,
+
+        session_id=payload.session_id,
+
+        question_id=next_question.id,
+
+        status="In Progress"
+    )
 
     save_message(
 
