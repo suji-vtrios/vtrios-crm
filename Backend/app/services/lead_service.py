@@ -13,8 +13,11 @@ def get_lead_by_phone(
         )
 
         .filter(
-            Lead.phone
-            == phone
+            Lead.phone == phone
+        )
+
+        .order_by(
+            Lead.id.desc()
         )
 
         .first()
