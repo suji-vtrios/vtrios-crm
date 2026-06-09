@@ -25,7 +25,7 @@ def send_welcome_message(phone, customer_name):
                 "custom_params": [
                     {
                         "name": "name",
-                        "value": "Suji"
+                        "value": customer_name
                     }
                 ]
             }

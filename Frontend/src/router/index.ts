@@ -279,6 +279,16 @@ createRouter({
       component:
         AssessmentResultView
     },
+    {
+      path:
+        '/assessment-session-details/:id',
+
+      name:
+        'AssessmentSessionDetails',
+
+      component:
+        AssessmentSessionDetailsView
+    }
   ]
 })
 
