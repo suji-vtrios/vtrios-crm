@@ -72,6 +72,8 @@ from app.routes import (
     assessment_conversations
 )
 
+from app.routes import wati_assessment
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -240,4 +242,10 @@ app.include_router(
     tags=[
         "Assessment Conversations"
     ]
+)
+
+app.include_router(
+    wati_assessment.router,
+    prefix="/wati-assessment",
+    tags=["WATI Assessment"]
 )

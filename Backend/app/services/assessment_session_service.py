@@ -40,3 +40,28 @@ def update_session_progress(
     db.refresh(session)
 
     return session
+
+def get_active_session(
+    db,
+    lead_id
+):
+
+    return (
+
+        db.query(
+            AssessmentSession
+        )
+
+        .filter(
+            AssessmentSession.lead_id
+            == lead_id
+        )
+
+        .filter(
+            AssessmentSession
+            .assessment_status
+            != "Completed"
+        )
+
+        .first()
+    )
