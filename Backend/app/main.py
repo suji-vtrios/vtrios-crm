@@ -86,6 +86,8 @@ from app.models.ai_counselor_message import (
     AICounselorMessage
 )
 
+from app.routes import wati_ai_counselor
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -272,4 +274,10 @@ app.include_router(
     ai_counselor.router,
     prefix="/ai-counselor",
     tags=["AI Counselor"]
+)
+
+app.include_router(
+    wati_ai_counselor.router,
+    prefix="/wati-ai-counselor",
+    tags=["WATI AI Counselor"]
 )
