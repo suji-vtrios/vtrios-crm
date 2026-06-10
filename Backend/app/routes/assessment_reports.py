@@ -11,7 +11,8 @@ from app.models.assessment_report import (
 
 from app.services.assessment_report_service import (
     calculate_session_score,
-    generate_recommendation
+    generate_recommendation,
+    generate_report
 )
 
 router = APIRouter()
@@ -70,3 +71,14 @@ def test_score(
         "recommendation":
         recommendation
     }
+
+@router.get("/summary/{session_id}")
+def summary(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    return generate_report(
+        db,
+        session_id
+    )
