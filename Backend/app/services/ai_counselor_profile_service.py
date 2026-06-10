@@ -13,7 +13,9 @@ def extract_profile(
     transcript
 ):
 
-    prompt = f"""
+    try:
+
+        prompt = f"""
 Conversation:
 
 {transcript}
@@ -26,7 +28,9 @@ Extract:
 4. Lead Quality
 5. Lead Intent
 
-Return ONLY valid JSON:
+Return ONLY valid JSON.
+
+Example:
 
 {{
   "education":"",
@@ -37,23 +41,45 @@ Return ONLY valid JSON:
 }}
 """
 
-    response = client.chat.completions.create(
+        response = client.chat.completions.create(
 
-        model="gpt-4o-mini",
+            model="gpt-4o-mini",
 
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
 
-    content = (
-        response
-        .choices[0]
-        .message
-        .content
-    )
+        content = (
+            response
+            .choices[0]
+            .message
+            .content
+        )
 
-    return json.loads(content)
+        print(
+            "PROFILE RAW =",
+            content
+        )
+
+        return json.loads(
+            content
+        )
+
+    except Exception as e:
+
+        print(
+            "PROFILE ERROR =",
+            str(e)
+        )
+
+        return {
+            "education": None,
+            "experience": None,
+            "career_goal": None,
+            "lead_quality": None,
+            "lead_intent": None
+        }
