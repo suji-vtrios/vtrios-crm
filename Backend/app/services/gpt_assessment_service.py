@@ -1,5 +1,9 @@
+import json
+
 from openai import OpenAI
+
 from app.config import settings
+
 
 client = OpenAI(
     api_key=settings.OPENAI_API_KEY
@@ -20,13 +24,13 @@ Student Answer:
 
 Evaluate the answer.
 
-Return JSON:
+Return ONLY valid JSON:
 
 {{
-  "score": 0-10,
-  "feedback": "...",
-  "strengths": "...",
-  "weaknesses": "..."
+  "score": 0,
+  "feedback": "",
+  "strengths": "",
+  "weaknesses": ""
 }}
 """
 
@@ -42,4 +46,11 @@ Return JSON:
         ]
     )
 
-    return response.choices[0].message.content
+    content = (
+        response
+        .choices[0]
+        .message
+        .content
+    )
+
+    return json.loads(content)

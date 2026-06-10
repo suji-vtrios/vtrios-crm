@@ -74,6 +74,8 @@ from app.routes import (
 
 from app.routes import wati_assessment
 
+from app.routes import test_openai
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -248,4 +250,10 @@ app.include_router(
     wati_assessment.router,
     prefix="/wati-assessment",
     tags=["WATI Assessment"]
+)
+
+app.include_router(
+    test_openai.router,
+    prefix="/test-openai",
+    tags=["OpenAI Test"]
 )
