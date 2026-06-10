@@ -35,12 +35,12 @@ Scoring Guide:
 
 Return ONLY valid JSON:
 
-{
+{{
   "score": 0,
   "feedback": "",
   "strengths": "",
   "weaknesses": ""
-}
+}}
 
 Return ONLY valid JSON:
 
