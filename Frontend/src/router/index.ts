@@ -279,16 +279,16 @@ createRouter({
       component:
         AssessmentResultView
     },
-    {
-      path:
-        '/assessment-session-details/:id',
+    // {
+    //   path:
+    //     '/assessment-session-details/:id',
 
-      name:
-        'AssessmentSessionDetails',
+    //   name:
+    //     'AssessmentSessionDetails',
 
-      component:
-        AssessmentSessionDetailsView
-    },
+    //   component:
+    //     AssessmentSessionDetailsView
+    // },
     {
       path: "/ai-counselor",
       name: "AICounselor",
