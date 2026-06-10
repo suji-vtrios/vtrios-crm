@@ -12,7 +12,8 @@ from app.services.ai_counselor_service import (
     create_session,
     save_message,
     get_messages,
-    get_session
+    get_session,
+    update_profile
 )
 
 
@@ -137,6 +138,15 @@ def chat(
     history = get_messages(
         db,
         session.id
+    )
+
+    transcript = "\n".join(
+
+        [
+            f"{item.role}: {item.message}"
+
+            for item in history
+        ]
     )
 
     messages = [
