@@ -6,9 +6,9 @@ import {
 from 'vue'
 
 import {
-  useRoute
-}
-from 'vue-router'
+  useRoute,
+  useRouter
+} from 'vue-router'
 
 import MainLayout
 from '@/layouts/MainLayout.vue'
@@ -30,8 +30,9 @@ import {
 from '@/services/assessmentEnrollmentService'
 
 
-const route =
-  useRoute()
+const route = useRoute()
+
+const router = useRouter()
 
 const reportStore =
   useAssessmentReportStore()
