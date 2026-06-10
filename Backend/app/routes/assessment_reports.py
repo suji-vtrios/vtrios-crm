@@ -9,6 +9,11 @@ from app.models.assessment_report import (
     AssessmentReport
 )
 
+from app.services.assessment_report_service import (
+    calculate_session_score,
+    generate_recommendation
+)
+
 router = APIRouter()
 
 
@@ -41,3 +46,27 @@ def get_report(
         )
         .first()
     )
+
+@router.get("/test-score/{session_id}")
+def test_score(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    average_score = calculate_session_score(
+        db,
+        session_id
+    )
+
+    recommendation = generate_recommendation(
+        average_score
+    )
+
+    return {
+
+        "average_score":
+        average_score,
+
+        "recommendation":
+        recommendation
+    }
