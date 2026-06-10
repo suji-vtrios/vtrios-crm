@@ -47,14 +47,6 @@ function viewResult(
   )
 }
 
-function viewDetails(
-  session: any
-) {
-
-  router.push(
-    `/assessment-session-details/${session.id}`
-  )
-}
 
 </script>
 
@@ -119,15 +111,6 @@ function viewDetails(
             "
           />
 
-          <Button
-            label="Details"
-            icon="pi pi-search"
-            @click="
-              viewDetails(
-                slotProps.data
-              )
-            "
-          />
 
         </template>
 
