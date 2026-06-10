@@ -3,6 +3,8 @@ from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
 from sqlalchemy import DateTime
+from sqlalchemy import Float
+from sqlalchemy import Text
 
 from datetime import datetime
 
@@ -52,4 +54,24 @@ class AssessmentConversation(Base):
     created_at = Column(
         DateTime,
         default=datetime.utcnow
+    )
+
+    score = Column(
+        Float,
+        nullable=True
+    )
+
+    feedback = Column(
+        Text,
+        nullable=True
+    )
+
+    strengths = Column(
+        Text,
+        nullable=True
+    )
+
+    weaknesses = Column(
+        Text,
+        nullable=True
     )

@@ -15,7 +15,11 @@ def save_message(
     question_id,
     role,
     message,
-    sequence_no
+    sequence_no,
+    score=None,
+    feedback=None,
+    strengths=None,
+    weaknesses=None
 ):
 
     item = AssessmentConversation(
@@ -28,7 +32,15 @@ def save_message(
 
         message=message,
 
-        sequence_no=sequence_no
+        sequence_no=sequence_no,
+
+        score=score,
+
+        feedback=feedback,
+
+        strengths=strengths,
+
+        weaknesses=weaknesses
     )
 
     db.add(item)
