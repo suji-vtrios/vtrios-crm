@@ -65,3 +65,37 @@ def get_active_session(
 
         .first()
     )
+
+def update_final_result(
+    db,
+    session_id,
+    score,
+    recommendation
+):
+
+    session = (
+
+        db.query(
+            AssessmentSession
+        )
+
+        .filter(
+            AssessmentSession.id
+            == session_id
+        )
+
+        .first()
+    )
+
+    if not session:
+        return None
+
+    session.overall_score = score
+
+    session.recommendation = recommendation
+
+    db.commit()
+
+    db.refresh(session)
+
+    return session

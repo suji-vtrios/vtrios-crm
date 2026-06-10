@@ -39,6 +39,15 @@ from app.services.gpt_assessment_service import (
     evaluate_answer
 )
 
+from app.services.assessment_report_service import (
+    calculate_session_score,
+    generate_recommendation
+)
+
+from app.services.assessment_session_service import (
+    update_final_result
+)
+
 router = APIRouter()
 
 
@@ -146,6 +155,30 @@ async def webhook(
 
     if not next_question:
 
+        average_score = (
+            calculate_session_score(
+                db,
+                session.id
+            )
+        )
+
+        recommendation = (
+            generate_recommendation(
+                average_score
+            )
+        )
+
+        update_final_result(
+
+            db=db,
+
+            session_id=session.id,
+
+            score=average_score,
+
+            recommendation=recommendation
+        )
+
         update_session_progress(
 
             db=db,
@@ -160,7 +193,13 @@ async def webhook(
         return {
 
             "completed":
-            True
+            True,
+
+            "average_score":
+            average_score,
+
+            "recommendation":
+            recommendation
         }
 
     update_session_progress(

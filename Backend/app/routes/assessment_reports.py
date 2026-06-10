@@ -25,7 +25,7 @@ def get_reports(
     )
 
 
-@router.get("/{session_id}")
+@router.get("/generate/{session_id}")
 def get_report(
     session_id: int,
     db: Session = Depends(get_db)
