@@ -30,6 +30,23 @@ def get_reports(
         .all()
     )
 
+@router.get("/{session_id}")
+def get_report_by_session(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    return (
+        db.query(
+            AssessmentReport
+        )
+        .filter(
+            AssessmentReport.session_id
+            == session_id
+        )
+        .first()
+    )
+
 
 @router.get("/generate/{session_id}")
 def get_report(
