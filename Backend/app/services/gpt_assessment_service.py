@@ -34,23 +34,39 @@ Return ONLY valid JSON:
 }}
 """
 
-    response = client.chat.completions.create(
+    try:
 
-        model="gpt-4o-mini",
+        response = client.chat.completions.create(
 
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
+            model="gpt-4o-mini",
 
-    content = (
-        response
-        .choices[0]
-        .message
-        .content
-    )
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
 
-    return json.loads(content)
+        content = (
+            response
+            .choices[0]
+            .message
+            .content
+        )
+
+        return json.loads(content)
+
+    except Exception as e:
+
+        return {
+
+            "score": 0,
+
+            "feedback":
+            f"GPT Error: {str(e)}",
+
+            "strengths": "",
+
+            "weaknesses": ""
+        }
