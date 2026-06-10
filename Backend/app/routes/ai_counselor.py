@@ -11,8 +11,11 @@ from app.services.ai_counselor_service import (
     get_active_session,
     create_session,
     save_message,
-    get_messages
+    get_messages,
+    get_session
 )
+
+
 
 router = APIRouter()
 
@@ -174,4 +177,49 @@ def chat(
     return {
         "session_id": session.id,
         "message": ai_reply
+    }
+
+@router.get("/session/{session_id}")
+def get_counselor_session(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    session = get_session(
+        db,
+        session_id
+    )
+
+    if not session:
+
+        return {
+            "error":
+            "Session not found"
+        }
+
+    return {
+
+        "session_id":
+        session.id,
+
+        "lead_id":
+        session.lead_id,
+
+        "lead_quality":
+        session.lead_quality,
+
+        "lead_intent":
+        session.lead_intent,
+
+        "education":
+        session.education,
+
+        "experience":
+        session.experience,
+
+        "career_goal":
+        session.career_goal,
+
+        "status":
+        session.status
     }
