@@ -1,0 +1,16 @@
+import api from './api'
+
+export async function sendMessage(
+  message: string
+) {
+
+  const response =
+    await api.post(
+      '/ai-counselor/chat',
+      {
+        message
+      }
+    )
+
+  return response.data
+}

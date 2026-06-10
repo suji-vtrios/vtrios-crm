@@ -288,7 +288,15 @@ createRouter({
 
     //   component:
     //     AssessmentSessionDetailsView
-    // }
+    // },
+    {
+      path: "/ai-counselor",
+      name: "AICounselor",
+      component: () =>
+        import(
+          "@/views/AICounselorView.vue"
+        )
+    }
   ]
 })
 
