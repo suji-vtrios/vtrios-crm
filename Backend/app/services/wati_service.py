@@ -102,3 +102,29 @@ def send_text_message(
         "response":
         response.text
     }
+
+def send_assessment_start(
+    phone,
+    student_name,
+    question
+):
+    payload = {
+    "channel": "Default",
+    "template_name": "assessment_start",
+    "broadcast_name": "BIM Assessment",
+    "recipients": [
+        {
+            "phone_number": phone,
+            "custom_params": [
+                {
+                    "name": "1",
+                    "value": student_name
+                },
+                {
+                    "name": "2",
+                    "value": question
+                }
+            ]
+        }
+    ]
+}
