@@ -8,10 +8,6 @@ from app.services.lead_service import (
     get_lead_by_phone
 )
 
-from app.services.assessment_session_service import (
-    get_active_session
-)
-
 from app.services.assessment_question_service import (
     get_question_by_id
 )
@@ -24,11 +20,6 @@ from app.services.assessment_conversation_service import (
     save_message,
     get_next_question,
     get_next_sequence
-)
-
-from app.services.assessment_session_service import (
-    get_active_session,
-    update_session_progress
 )
 
 from app.services.wati_service import (
@@ -45,9 +36,10 @@ from app.services.assessment_report_service import (
 )
 
 from app.services.assessment_session_service import (
+    get_active_session,
+    update_session_progress,
     update_final_result
 )
-
 router = APIRouter()
 
 
