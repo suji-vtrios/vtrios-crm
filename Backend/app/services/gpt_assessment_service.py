@@ -22,7 +22,25 @@ Question:
 Student Answer:
 {answer}
 
-Evaluate the answer.
+Evaluate the answer for a BIM student assessment.
+
+Scoring Guide:
+
+10 = Excellent answer, technically complete.
+8 = Good answer, mostly correct.
+6 = Basic understanding shown.
+4 = Limited understanding.
+2 = Very poor answer.
+0 = Incorrect answer.
+
+Return ONLY valid JSON:
+
+{
+  "score": 0,
+  "feedback": "",
+  "strengths": "",
+  "weaknesses": ""
+}
 
 Return ONLY valid JSON:
 

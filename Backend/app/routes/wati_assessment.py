@@ -35,6 +35,10 @@ from app.services.wati_service import (
     send_text_message
 )
 
+from app.services.gpt_assessment_service import (
+    evaluate_answer
+)
+
 router = APIRouter()
 
 
@@ -86,6 +90,29 @@ async def webhook(
         session.current_question_id
     )
 
+    evaluation = evaluate_answer(
+
+        question=question.question,
+
+        answer=message
+    )
+
+    if not isinstance(evaluation, dict):
+
+        evaluation = {
+
+            "score": 0,
+
+            "feedback":
+            "Evaluation failed",
+
+            "strengths": "",
+
+            "weaknesses": ""
+        }
+
+    print("EVALUATION =", evaluation)
+
     save_message(
 
         db=db,
@@ -102,7 +129,14 @@ async def webhook(
         get_next_sequence(
             db,
             session.id
-        )
+        ),
+        score=evaluation["score"],
+
+        feedback=evaluation["feedback"],
+
+        strengths=evaluation["strengths"],
+
+        weaknesses=evaluation["weaknesses"]
     )
 
     next_question = get_next_question(
@@ -161,14 +195,19 @@ async def webhook(
 
     return {
 
-        "completed":
-        False,
+        "completed": False,
 
         "question_id":
         next_question.id,
 
         "question":
-        next_question.question
+        next_question.question,
+
+        "score":
+        evaluation["score"],
+
+        "feedback":
+        evaluation["feedback"]
     }
 
 @router.get("/test-message")
