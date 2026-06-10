@@ -17,6 +17,19 @@ router = APIRouter()
 
 VERIFY_TOKEN = settings.META_VERIFY_TOKEN
 
+from fastapi import Request
+
+@router.post("/webhook")
+async def webhook(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    body = await request.json()
+
+    print("RAW BODY =", body)
+
+    return {"status": "ok"}
+
 
 @router.get("/meta")
 async def verify_webhook(
