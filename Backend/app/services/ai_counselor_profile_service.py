@@ -26,7 +26,7 @@ Extract:
 4. Lead Quality
 5. Lead Intent
 
-Return ONLY JSON:
+Return ONLY valid JSON:
 
 {{
   "education":"",
@@ -43,15 +43,17 @@ Return ONLY JSON:
 
         messages=[
             {
-                "role":"user",
-                "content":prompt
+                "role": "user",
+                "content": prompt
             }
         ]
     )
 
-    return json.loads(
+    content = (
         response
         .choices[0]
         .message
         .content
     )
+
+    return json.loads(content)

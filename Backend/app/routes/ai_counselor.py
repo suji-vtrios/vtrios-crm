@@ -16,6 +16,10 @@ from app.services.ai_counselor_service import (
     update_profile
 )
 
+from app.services.ai_counselor_profile_service import (
+    extract_profile
+)
+
 
 
 router = APIRouter()
@@ -182,6 +186,51 @@ def chat(
         session.id,
         "assistant",
         ai_reply
+    )
+
+    transcript = "\n".join(
+
+        [
+            f"{item.role}: {item.message}"
+
+            for item in history
+        ]
+    )
+
+    profile = extract_profile(
+        transcript
+    )
+
+    update_profile(
+
+        db,
+
+        session.id,
+
+        education=
+        profile.get(
+            "education"
+        ),
+
+        experience=
+        profile.get(
+            "experience"
+        ),
+
+        career_goal=
+        profile.get(
+            "career_goal"
+        ),
+
+        lead_quality=
+        profile.get(
+            "lead_quality"
+        ),
+
+        lead_intent=
+        profile.get(
+            "lead_intent"
+        )
     )
 
     return {
