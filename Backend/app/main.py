@@ -78,6 +78,14 @@ from app.routes import test_openai
 
 from app.routes import ai_counselor
 
+from app.models.ai_counselor_session import (
+    AICounselorSession
+)
+
+from app.models.ai_counselor_message import (
+    AICounselorMessage
+)
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
