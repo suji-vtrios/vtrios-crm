@@ -4,13 +4,19 @@ export async function sendMessage(
   message: string
 ) {
 
-  const response =
-    await api.post(
-      '/ai-counselor/chat',
-      {
+  return fetch(
+    'https://crm.vtrios.com/ai-counselor/chat',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+        'application/json'
+      },
+      body: JSON.stringify({
         message
-      }
-    )
-
-  return response.data
+      })
+    }
+  ).then(
+    r => r.json()
+  )
 }
