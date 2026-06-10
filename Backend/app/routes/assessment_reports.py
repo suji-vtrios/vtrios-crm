@@ -16,6 +16,7 @@ from app.services.assessment_report_service import (
 )
 
 router = APIRouter()
+print("ASSESSMENT REPORT ROUTES LOADED")
 
 
 @router.get("/")
