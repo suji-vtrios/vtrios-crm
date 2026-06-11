@@ -11,6 +11,9 @@ from app.models.notification import (
     Notification
 )
 from app.config import settings
+from app.dependencies import get_db
+from sqlalchemy.orm import Session
+from fastapi import Depends
 
 router = APIRouter()
 
