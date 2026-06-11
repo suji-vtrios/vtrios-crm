@@ -24,14 +24,14 @@ api_key=settings.OPENAI_API_KEY
 
 @router.post("/webhook")
 async def webhook(
-request: Request,
-db: Session = Depends(get_db)
+    request: Request,
+    db: Session = Depends(get_db)
 ):
 
-payload = await request.json()
+    payload = await request.json()
 
-phone = payload.get("waId")
-message = payload.get("text")
+    phone = payload.get("waId")
+    message = payload.get("text")
 
 print("PHONE =", phone)
 print("MESSAGE =", message)
