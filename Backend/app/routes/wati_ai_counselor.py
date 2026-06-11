@@ -46,7 +46,7 @@ async def webhook(
 
         lead = create_lead(
             db=db,
-            first_name=payload.get(
+            name=payload.get(
                 "senderName",
                 "WhatsApp Lead"
             ),
