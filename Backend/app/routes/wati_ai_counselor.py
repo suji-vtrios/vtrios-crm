@@ -63,18 +63,16 @@ Once these are known:
 - BIM familiarity
 - Career objective
 
-Respond with:
+When Education, Experience,
+BIM Familiarity and Career Objective
+are known, respond exactly:
 
 START_ASSESSMENT
 
-followed by one short sentence explaining that the assessment will identify the most suitable BIM learning path.
-
-Vtrios strengths:
-
-- 20+ years BIM project experience
-- Real project-based learning
-- End-to-end BIM workflow training
-- Industry-focused practical approach
+Do not ask any additional questions.
+Do not ask for email.
+Do not ask for contact information.
+Do not continue normal conversation.
 """
 
 @router.post("/webhook")
@@ -113,6 +111,21 @@ async def webhook(
     message = payload.get(
         "text"
     )
+
+    if message.strip().upper() == "YES":
+
+        send_text_message(
+            phone=phone,
+            message=(
+                "Great! Let's begin the BIM Readiness Assessment.\n\n"
+                "Question 1:\n"
+                "What is BIM and how is it different from CAD?"
+            )
+        )
+
+        return {
+            "status": "assessment started"
+        }
 
     print("PHONE =", phone)
     print("MESSAGE =", message)
@@ -198,11 +211,26 @@ async def webhook(
 
     print("AI REPLY =", ai_reply)
 
+    if "START_ASSESSMENT" in ai_reply:
+
+        ai_reply = (
+            "Based on your background, I recommend "
+            "the BIM Readiness Assessment.\n\n"
+            "This assessment will identify the most "
+            "suitable BIM learning path for you.\n\n"
+            "Reply YES to begin."
+        )
+
     save_message(
         db,
         session.id,
         "assistant",
         ai_reply
+    )
+
+    send_text_message(
+        phone=phone,
+        message=ai_reply
     )
 
     history = get_messages(
@@ -244,11 +272,6 @@ async def webhook(
         lead_intent=profile.get(
             "lead_intent"
         )
-    )
-
-    send_text_message(
-        phone=phone,
-        message=ai_reply
     )
 
     return {
