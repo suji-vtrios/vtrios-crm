@@ -188,11 +188,14 @@ def chat(
         ai_reply
     )
 
-    transcript = "\n".join(
+    history = get_messages(
+        db,
+        session.id
+    )
 
+    transcript = "\n".join(
         [
             f"{item.role}: {item.message}"
-
             for item in history
         ]
     )

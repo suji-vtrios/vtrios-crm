@@ -52,3 +52,7 @@ class AICounselorSession(Base):
     career_goal = Column(
         Text
     )
+
+    recommended_course = Column(
+        Text
+    )
