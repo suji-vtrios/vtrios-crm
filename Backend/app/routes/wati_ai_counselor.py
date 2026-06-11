@@ -9,7 +9,8 @@ from app.config import settings
 from app.dependencies import get_db
 
 from app.services.lead_service import (
-    get_lead_by_phone
+    get_lead_by_phone,
+    create_lead
 )
 
 from app.services.wati_service import (
@@ -41,13 +42,19 @@ async def webhook(
         phone
     )
 
-    print("LEAD =", lead)
-
     if not lead:
 
-        return {
-            "status": "lead not found"
-        }
+        lead = create_lead(
+            db=db,
+            first_name=payload.get(
+                "senderName",
+                "WhatsApp Lead"
+            ),
+            phone=phone,
+            source="WhatsApp"
+        )
+
+        print("NEW LEAD CREATED =", lead.id)
 
     response = client.chat.completions.create(
 

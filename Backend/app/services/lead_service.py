@@ -22,3 +22,29 @@ def get_lead_by_phone(
 
         .first()
     )
+
+def create_lead(
+    db,
+    name,
+    phone,
+    source="WhatsApp"
+):
+
+    lead = Lead(
+
+        name=name,
+
+        phone=phone,
+
+        source=source,
+
+        status="New"
+    )
+
+    db.add(lead)
+
+    db.commit()
+
+    db.refresh(lead)
+
+    return lead

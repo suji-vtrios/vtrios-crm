@@ -1,6 +1,8 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import DateTime
+from sqlalchemy.sql import func
 
 from app.database import Base
 
@@ -48,3 +50,8 @@ class Lead(Base):
     utm_campaign = Column(String)
 
     utm_medium = Column(String)
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )   
