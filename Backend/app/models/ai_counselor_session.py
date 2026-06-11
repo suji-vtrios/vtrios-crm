@@ -7,6 +7,8 @@ from sqlalchemy.sql import func
 from sqlalchemy import Text
 
 from app.database import Base
+from sqlalchemy import Boolean
+
 
 
 class AICounselorSession(Base):
@@ -49,10 +51,42 @@ class AICounselorSession(Base):
         Text
     )
 
+    bim_familiarity = Column(
+        Text
+    )
+
     career_goal = Column(
         Text
     )
 
     recommended_course = Column(
-        Text
+        String
+    )
+
+    current_stage = Column(
+        String,
+        default="GREETING"
+    )
+
+    assessment_score = Column(
+        Integer,
+        default=0
+    )
+
+    assessment_completed = Column(
+        Boolean,
+        default=False
+    )
+
+    next_action = Column(
+        String
+    )
+
+    objection_type = Column(
+        String
+    )
+
+    enrollment_probability = Column(
+        Integer,
+        default=0
     )

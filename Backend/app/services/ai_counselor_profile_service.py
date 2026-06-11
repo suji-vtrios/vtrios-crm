@@ -16,34 +16,60 @@ def extract_profile(
     try:
 
         prompt = f"""
-Conversation:
+        Conversation:
 
-{transcript}
+        {transcript}
 
-Extract:
+        Extract:
 
-1. Education
-2. Experience
-3. Career Goal
-4. Lead Quality
-5. Lead Intent
+        1. Education
+        2. Experience
+        3. BIM Familiarity
+        4. Career Goal
+        5. Lead Quality
+        6. Lead Intent
 
-Return ONLY valid JSON.
+        Lead Quality Rules:
 
-Example:
+        HOT
+        WARM
+        COLD
 
-{{
-  "education":"",
-  "experience":"",
-  "career_goal":"",
-  "lead_quality":"",
-  "lead_intent":""
-}}
-"""
+        Lead Intent Options:
+
+        Career Change
+        Skill Upgrade
+        Student Learning
+        Job Preparation
+        Exploration
+        Unknown
+
+        Return ONLY valid JSON.
+
+        Do not include markdown.
+        Do not include explanations.
+        Do not include code fences.
+        If information is not available,
+        return "Unknown".
+
+        Example:
+
+        {{
+        "education":"",
+        "experience":"",
+        "bim_familiarity":"",
+        "career_goal":"",
+        "lead_quality":"",
+        "lead_intent":""
+        }}
+        """
 
         response = client.chat.completions.create(
 
             model="gpt-4o-mini",
+            response_format={
+                "type": "json_object"
+            },
 
             messages=[
                 {
@@ -79,6 +105,7 @@ Example:
         return {
             "education": None,
             "experience": None,
+            "bim_familiarity": None,
             "career_goal": None,
             "lead_quality": None,
             "lead_intent": None
