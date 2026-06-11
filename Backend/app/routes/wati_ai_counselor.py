@@ -17,11 +17,65 @@ from app.services.wati_service import (
     send_text_message
 )
 
+from app.services.ai_counselor_service import (
+    get_active_session,
+    create_session,
+    save_message,
+    get_messages,
+    update_profile
+)
+
+from app.services.ai_counselor_profile_service import (
+    extract_profile
+)
+
 router = APIRouter()
 
 client = OpenAI(
     api_key=settings.OPENAI_API_KEY
 )
+
+SYSTEM_PROMPT = """
+You are the official Vtrios BIM Career Counselor.
+
+Your primary objective is to qualify the lead quickly.
+
+Collect only:
+
+1. Education
+2. Years of experience
+3. BIM/Revit familiarity
+4. Career objective
+
+Rules:
+
+- Ask only ONE short question at a time.
+- Keep replies below 40 words.
+- Avoid generic chatbot behaviour.
+- Avoid repeating questions.
+- Do not ask for information already provided.
+- Maximum 4 qualification questions.
+
+Once these are known:
+
+- Education
+- Experience
+- BIM familiarity
+- Career objective
+
+Respond with:
+
+START_ASSESSMENT
+
+followed by one short sentence explaining that the assessment will identify the most suitable BIM learning path.
+
+Vtrios strengths:
+
+- 20+ years BIM project experience
+- Real project-based learning
+- End-to-end BIM workflow training
+- Industry-focused practical approach
+"""
 
 @router.post("/webhook")
 async def webhook(
@@ -31,8 +85,34 @@ async def webhook(
 
     payload = await request.json()
 
-    phone = payload.get("waId")
-    message = payload.get("text")
+    print("================================")
+    print("WATI WEBHOOK RECEIVED")
+    print(payload)
+    print("================================")
+
+    event_type = payload.get(
+        "eventType"
+    )
+
+    if event_type != "message":
+
+        return {
+            "status": "ignored"
+        }
+
+    if payload.get("owner"):
+
+        return {
+            "status": "own message ignored"
+        }
+
+    phone = payload.get(
+        "waId"
+    )
+
+    message = payload.get(
+        "text"
+    )
 
     print("PHONE =", phone)
     print("MESSAGE =", message)
@@ -54,26 +134,59 @@ async def webhook(
             source="WhatsApp"
         )
 
-        print("NEW LEAD CREATED =", lead.id)
+        print(
+            "NEW LEAD CREATED =",
+            lead.id
+        )
+
+    session = get_active_session(
+        db,
+        lead.id
+    )
+
+    if not session:
+
+        session = create_session(
+            db,
+            lead.id
+        )
+
+        print(
+            "NEW SESSION CREATED =",
+            session.id
+        )
+
+    save_message(
+        db,
+        session.id,
+        "user",
+        message
+    )
+
+    history = get_messages(
+        db,
+        session.id
+    )
+
+    messages = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT
+        }
+    ]
+
+    for item in history:
+
+        messages.append(
+            {
+                "role": item.role,
+                "content": item.message
+            }
+        )
 
     response = client.chat.completions.create(
-
         model="gpt-4o-mini",
-
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are Vtrios AI BIM Counselor. "
-                    "Ask one question at a time "
-                    "to understand the student's background."
-                )
-            },
-            {
-                "role": "user",
-                "content": message
-            }
-        ]
+        messages=messages
     )
 
     ai_reply = (
@@ -84,6 +197,54 @@ async def webhook(
     )
 
     print("AI REPLY =", ai_reply)
+
+    save_message(
+        db,
+        session.id,
+        "assistant",
+        ai_reply
+    )
+
+    history = get_messages(
+        db,
+        session.id
+    )
+
+    transcript = "\n".join(
+        [
+            f"{item.role}: {item.message}"
+            for item in history
+        ]
+    )
+
+    profile = extract_profile(
+        transcript
+    )
+
+    print(
+        "PROFILE =",
+        profile
+    )
+
+    update_profile(
+        db,
+        session.id,
+        education=profile.get(
+            "education"
+        ),
+        experience=profile.get(
+            "experience"
+        ),
+        career_goal=profile.get(
+            "career_goal"
+        ),
+        lead_quality=profile.get(
+            "lead_quality"
+        ),
+        lead_intent=profile.get(
+            "lead_intent"
+        )
+    )
 
     send_text_message(
         phone=phone,
