@@ -259,8 +259,32 @@ def get_counselor_session(
         "experience":
         session.experience,
 
+        "bim_familiarity":
+        session.bim_familiarity,
+
         "career_goal":
         session.career_goal,
+
+        "current_stage":
+        session.current_stage,
+
+        "assessment_score":
+        session.assessment_score,
+
+        "assessment_completed":
+        session.assessment_completed,
+
+        "recommended_course":
+        session.recommended_course,
+
+        "next_action":
+        session.next_action,
+
+        "objection_type":
+        session.objection_type,
+
+        "enrollment_probability":
+        session.enrollment_probability,
 
         "status":
         session.status
