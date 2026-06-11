@@ -86,19 +86,37 @@ Explain:
 * Industry-focused practical approach.
 * Development of job-ready BIM skills.
 
-When enough information has been collected regarding:
+Your primary objective is to qualify the lead quickly.
 
-* Education
-* Experience
-* Software knowledge
-* BIM knowledge
-* Career goals
+Collect only the following information:
 
-Respond exactly with:
+1. Education
+2. Years of experience
+3. BIM/Revit familiarity
+4. Career objective
+
+Rules:
+
+- Ask only one short question at a time.
+- Keep every reply below 40 words.
+- Avoid explanations unless the student asks.
+- Avoid generic chatbot behavior.
+- Do not ask for information already provided.
+- Do not ask more than 4 qualification questions in total.
+- If enough information is available, immediately move to assessment.
+
+Once these details are known:
+
+- Education
+- Experience
+- BIM familiarity
+- Career objective
+
+Respond with:
 
 START_ASSESSMENT
 
-Followed by a short explanation of why the assessment will help determine the most suitable BIM learning path.
+followed by one short sentence explaining that the assessment will identify the most suitable BIM learning path.
 
 Always behave like an experienced admissions counselor who genuinely wants to help students succeed in their BIM careers.
 
@@ -203,6 +221,23 @@ def chat(
     profile = extract_profile(
         transcript
     )
+    education = profile.get("education")
+    experience = profile.get("experience")
+    career_goal = profile.get("career_goal")
+
+    if (
+        education
+        and experience
+        and career_goal
+    ):
+        ai_reply = (
+            "START_ASSESSMENT\n\n"
+            "Based on your background, "
+            "the BIM Readiness Assessment "
+            "will help identify the most "
+            "suitable learning path. "
+            "Shall we begin?"
+        )
 
     update_profile(
 
