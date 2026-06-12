@@ -83,6 +83,24 @@ async def webhook(
     message = payload.get(
         "text"
     )
+    print("=" * 50)
+
+    print(
+        "MESSAGE ID =",
+        payload.get(
+            "whatsappMessageId"
+        )
+    )
+
+    print(
+        "PHONE =",
+        phone
+    )
+
+    print(
+        "MESSAGE =",
+        message
+    )
 
     if message.strip().upper() == "YES":
 
@@ -129,6 +147,24 @@ async def webhook(
         lead.id
     )
 
+    if session:
+
+        print(
+            "SESSION ID =",
+            session.id
+        )
+
+        print(
+            "CURRENT STAGE =",
+            session.current_stage
+        )
+
+    else:
+
+        print(
+            "NO ACTIVE SESSION"
+        )
+
     if not session:
 
         session = create_session(
@@ -162,6 +198,11 @@ async def webhook(
     history = get_messages(
         db,
         session.id
+    )
+
+    print(
+        "MESSAGE COUNT =",
+        len(history)
     )
 
     messages = [
