@@ -136,12 +136,21 @@ async def webhook(
             lead.id
         )
 
-        stage = session.current_stage
-
         print(
-            "CURRENT STAGE =",
-            stage
+            "NEW SESSION CREATED =",
+            session.id
         )
+  
+    stage = (
+        session.current_stage
+        if session.current_stage
+        else "GREETING"
+    )
+
+    print(
+        "CURRENT STAGE =",
+        stage
+    )
 
     save_message(
         db,
