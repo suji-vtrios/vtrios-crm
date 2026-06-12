@@ -139,8 +139,8 @@ async def webhook(
         stage = session.current_stage
 
         print(
-            "NEW SESSION CREATED =",
-            session.id
+            "CURRENT STAGE =",
+            stage
         )
 
     save_message(
