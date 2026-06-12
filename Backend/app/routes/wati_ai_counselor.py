@@ -402,7 +402,7 @@ async def webhook(
         ai_reply
     )
 
-    send_text_message(
+    result = send_text_message(
         phone=phone,
         message=ai_reply
     )
