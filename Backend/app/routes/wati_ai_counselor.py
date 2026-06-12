@@ -327,9 +327,16 @@ async def webhook(
         message.lower().strip()
         in ["hi", "hello", "hey"]
     ):
+        send_text_message(
+            phone=phone,
+            message=(
+                "We are currently in the BIM Readiness Assessment process.\n\n"
+                "Please continue with your previous response or type 'restart' to begin again."
+            )
+        )
 
         return {
-            "status": "greeting ignored"
+            "status": "greeting handled"
         }
 
     save_message(
