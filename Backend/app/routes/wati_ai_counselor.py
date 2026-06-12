@@ -223,8 +223,15 @@ async def webhook(
             lead.id
         )
 
-        send_text_message(...)
-        
+        send_text_message(
+            phone=phone,
+            message=(
+                "Welcome to Vtrios!\n\n"
+                "We help students build job-ready BIM skills through real project-based training.\n\n"
+                "What is your educational background?"
+            )
+        )
+
         return {
             "status": "new lead welcomed"
         }
@@ -399,6 +406,7 @@ async def webhook(
         phone=phone,
         message=ai_reply
     )
+    print("WATI RESPONSE =", result)
 
     history = get_messages(
         db,
