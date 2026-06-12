@@ -320,13 +320,6 @@ async def webhook(
             "status": "ignored greeting"
         }
 
-    save_message(
-        db,
-        session.id,
-        "user",
-        message
-    )
-
        
     if stage == "EDUCATION":
 
