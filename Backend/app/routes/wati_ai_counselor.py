@@ -44,6 +44,19 @@ KNOWLEDGE = load_knowledge()
 SYSTEM_PROMPT = f"""
 You are the official Vtrios BIM Career Counselor.
 
+Important Rules:
+
+1. Ask only one question at a time.
+2. Never recommend a course until ALL of the following are known:
+   - Education
+   - Experience
+   - BIM Familiarity
+   - Career Goal
+3. Do not ask for enrollment before the BIM Readiness Assessment.
+4. Recommend the BIM Readiness Assessment before enrollment.
+5. Do not repeat greetings.
+6. Use the Vtrios training methodology and knowledge base.
+
 {KNOWLEDGE}
 """
 
@@ -83,13 +96,101 @@ async def webhook(
     message = payload.get(
         "text"
     )
-    print("=" * 50)
+    lead = get_lead_by_phone(
+        db,
+        phone
+    )
+
+    if not message:
+
+        return {
+            "status": "empty message"
+        }
+
+    restart_words = [
+        "start again",
+        "start from beginning",
+        "start from the beginning",
+        "begin again",
+        "restart",
+        "reset",
+        "start over",
+        "new conversation",
+        "lets start again",
+        "let's start again",
+        "lets start from beginning",
+        "let's start from beginning"
+    ]
+
+    if any(
+        word in message.lower()
+        for word in restart_words
+    ):
+
+        if lead:
+
+            session = get_active_session(
+                db,
+                lead.id
+            )
+
+            if session:
+                session.status = "Completed"
+                db.commit()
+
+            create_session(
+                db,
+                lead.id
+            )
+
+        else:
+
+            lead = create_lead(
+                db=db,
+                name=payload.get(
+                    "senderName",
+                    "WhatsApp Lead"
+                ),
+                phone=phone,
+                source="WhatsApp"
+            )
+
+            create_session(
+                db,
+                lead.id
+            )
+
+        send_text_message(
+            phone=phone,
+            message=(
+                "Welcome to Vtrios!\n\n"
+                "I'm your BIM Career Counselor.\n\n"
+                "Our training focuses on real BIM project workflows, documentation, coordination and industry-ready skills.\n\n"
+                "Could you tell me about your educational background?"
+            )
+        )
+
+        return {
+            "status": "restarted"
+        }
+
+    
+    print("=" * 80)
 
     print(
         "MESSAGE ID =",
         payload.get(
             "whatsappMessageId"
         )
+    )
+
+    message_id = payload.get(
+        "whatsappMessageId"
+    )
+
+    print(
+        "WHATSAPP MESSAGE ID =",
+        message_id
     )
 
     print(
@@ -102,30 +203,31 @@ async def webhook(
         message
     )
 
-    if message.strip().upper() == "YES":
+    
 
-        send_text_message(
+    
+    if not lead:
+
+        lead = create_lead(
+            db=db,
+            name=payload.get(
+                "senderName",
+                "WhatsApp Lead"
+            ),
             phone=phone,
-            message=(
-                "Great! Let's begin the BIM Readiness Assessment.\n\n"
-                "Question 1:\n"
-                "What is BIM and how is it different from CAD?"
-            )
+            source="WhatsApp"
         )
 
+        create_session(
+            db,
+            lead.id
+        )
+
+        send_text_message(...)
+        
         return {
-            "status": "assessment started"
+            "status": "new lead welcomed"
         }
-
-    print("PHONE =", phone)
-    print("MESSAGE =", message)
-
-    lead = get_lead_by_phone(
-        db,
-        phone
-    )
-
-    if not lead:
 
         lead = create_lead(
             db=db,
@@ -176,6 +278,30 @@ async def webhook(
             "NEW SESSION CREATED =",
             session.id
         )
+
+    if (
+        message.strip().upper() == "YES"
+        and
+        session
+        and
+        session.current_stage == "ASSESSMENT"
+    ):
+
+        send_text_message(
+            phone=phone,
+            message=(
+                "Welcome to Vtrios!\n\n"
+                "We help students build job-ready BIM skills through real project-based training led by an industry BIM expert with 20+ years of experience.\n\n"
+                "To help you choose the right BIM learning path, what is your educational background?"
+            )
+        )
+
+        return {
+            "status": "assessment started"
+        }
+
+    print("PHONE =", phone)
+    print("MESSAGE =", message)
   
     stage = (
         session.current_stage
@@ -187,6 +313,17 @@ async def webhook(
         "CURRENT STAGE =",
         stage
     )
+
+    if (
+        session.current_stage != "GREETING"
+        and
+        message.lower().strip()
+        in ["hi", "hello", "hey"]
+    ):
+
+        return {
+            "status": "greeting ignored"
+        }
 
     save_message(
         db,
@@ -216,6 +353,7 @@ async def webhook(
         }
     ]
 
+   
     for item in history:
 
         messages.append(
@@ -224,6 +362,7 @@ async def webhook(
                 "content": item.message
             }
         )
+
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -297,40 +436,19 @@ async def webhook(
         "career_goal"
     )
 
-    if (
+    qualification_complete = all([
         education
-        and education != "Unknown"
-        and
+        and education != "Unknown",
+
         experience
-        and experience != "Unknown"
-        and
+        and experience != "Unknown",
+
         bim_familiarity
-        and bim_familiarity != "Unknown"
-        and
+        and bim_familiarity != "Unknown",
+
         career_goal
         and career_goal != "Unknown"
-        and
-        session.current_stage != "ASSESSMENT"
-    ):
-        update_profile(
-            db,
-            session.id,
-            current_stage="ASSESSMENT"
-        )
-
-        print(
-            "MOVING TO ASSESSMENT"
-        )
-
-        print(
-            "PROFILE =",
-            profile
-        )
-
-        print(
-            "CURRENT STAGE =",
-            session.current_stage
-        )
+    ])
 
     update_profile(
         db,
@@ -361,6 +479,42 @@ async def webhook(
         )
     )
 
-    return {
-        "status": "ok"
-    }
+    if (
+        qualification_complete
+        and
+        session.current_stage != "ASSESSMENT"
+    ):
+        update_profile(
+            db,
+            session.id,
+            current_stage="ASSESSMENT"
+        )
+
+        session = get_active_session(
+            db,
+            lead.id
+        )
+
+        print(
+            "MOVING TO ASSESSMENT"
+        )
+
+        print(
+            "CURRENT STAGE =",
+            session.current_stage
+        )
+
+        send_text_message(
+            phone=phone,
+            message=(
+                "Based on your background, I recommend "
+                "the BIM Readiness Assessment.\n\n"
+                "This assessment will identify the most "
+                "suitable BIM learning path for you.\n\n"
+                "Reply YES to begin."
+            )
+        )
+
+        return {
+            "status": "awaiting_assessment_confirmation"
+        }
