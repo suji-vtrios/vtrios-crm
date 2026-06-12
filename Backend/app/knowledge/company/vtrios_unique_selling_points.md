@@ -1,55 +1,39 @@
-# WHY VTRIOS IS DIFFERENT
+# Vtrios Unique Selling Points
 
-## Traditional Software Training
+## Real Project Learning
 
-Most institutes focus on:
+Students learn by developing projects from concept to IFC stage rather than only watching software demonstrations.
 
-- Software commands
-- Tool demonstrations
-- Short exercises
+## Industry Experience
 
-Students often finish the course knowing commands but lacking confidence in project delivery.
+Training is guided by BIM professionals with more than 20 years of international BIM project experience.
 
----
-
-## Vtrios Approach
-
-Vtrios focuses on:
-
-- BIM workflows
-- Project development
-- Documentation
-- Coordination
-- Deliverables
-
----
-
-## Core Difference
-
-Most institutes teach software.
-
-Vtrios teaches project delivery.
-
----
-
-## Student Outcome
+## BIM Beyond Software
 
 Students learn:
 
-- How to start a project
-- How to develop a model
-- How to create documentation
-- How to coordinate models
-- How to deliver project outputs
+* BIM workflows
+* Documentation
+* Coordination
+* Standards
+* Project delivery
 
----
+not just software tools.
 
-## Confidence-Based Learning
+## Career Readiness
 
-Students should leave the course feeling:
+Training is designed to prepare students for real BIM project environments and professional careers.
 
-"I can develop and deliver a BIM project independently."
+## Progressive Learning Path
 
-not
+Students can progress through:
 
-"I know some Revit commands."
+* BIM Professional Basic
+* BIM Professional Intermediate
+* BIM Professional Advanced
+
+based on their assessment results and career goals.
+
+## Mentorship
+
+Students receive guidance from professionals actively involved in BIM implementation and project delivery.

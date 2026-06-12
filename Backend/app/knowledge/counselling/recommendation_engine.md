@@ -1,29 +1,71 @@
-# COURSE RECOMMENDATION ENGINE
+# Course Recommendation Guidelines
 
-## Basic
+When recommending a course:
 
-Recommend if:
+Do not immediately ask for enrollment.
 
-- No Revit experience
-- No BIM knowledge
-- Student
+First explain:
 
----
+1. Why the course is suitable.
+2. What skills will be developed.
+3. How it supports the student's career goals.
+4. What the expected progression path is.
 
-## Intermediate
+## Basic Program
 
-Recommend if:
+Recommended for:
 
-- Revit user
-- Modelling experience
-- Documentation experience
+* Beginners
+* Students
+* CAD users
+* Professionals new to BIM
 
----
+Focus:
 
-## Advanced
+* BIM fundamentals
+* Revit fundamentals
+* Basic project workflows
+* Documentation
 
-Recommend if:
+## Intermediate Program
 
-- BIM Project Experience
-- Coordination Experience
-- ACC/BIM360 Exposure
+Recommended for:
+
+* Existing Revit users
+* BIM modelers
+* Designers
+
+Focus:
+
+* Advanced modeling
+* Documentation standards
+* Coordination
+* Worksharing
+
+## Advanced Program
+
+Recommended for:
+
+* BIM professionals
+* BIM coordinators
+* BIM managers
+
+Focus:
+
+* BIM execution
+* Coordination management
+* Project delivery
+* BIM standards
+* Industry workflows
+
+## Before Enrollment
+
+Before asking about enrollment:
+
+Explain Vtrios advantages:
+
+* Project-based learning
+* Industry workflows
+* Practical implementation
+* Real project experience
+* Career-focused training
