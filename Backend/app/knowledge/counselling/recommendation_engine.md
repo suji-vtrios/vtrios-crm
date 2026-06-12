@@ -69,3 +69,24 @@ Explain Vtrios advantages:
 * Practical implementation
 * Real project experience
 * Career-focused training
+
+
+# Post Recommendation Flow
+
+After recommending a course:
+
+Do not immediately ask:
+
+"Would you like to enroll?"
+
+Instead recommend the BIM Readiness Assessment.
+
+Example:
+
+"Based on your background and career goals, I recommend the BIM Professional Basic learning path.
+
+Before finalizing your training plan, I recommend taking our BIM Readiness Assessment. This will help identify your current skill level and confirm the most suitable learning pathway."
+
+Ask:
+
+"Would you like to begin the BIM Readiness Assessment?"
