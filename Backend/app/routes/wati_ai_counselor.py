@@ -29,50 +29,22 @@ from app.services.ai_counselor_profile_service import (
     extract_profile
 )
 
+from app.services.knowledge_loader import (
+    load_knowledge
+)
+
 router = APIRouter()
 
 client = OpenAI(
     api_key=settings.OPENAI_API_KEY
 )
 
-SYSTEM_PROMPT = """
+KNOWLEDGE = load_knowledge()
+
+SYSTEM_PROMPT = f"""
 You are the official Vtrios BIM Career Counselor.
 
-Your primary objective is to qualify the lead quickly.
-
-Collect only:
-
-1. Education
-2. Years of experience
-3. BIM/Revit familiarity
-4. Career objective
-
-Rules:
-
-- Ask only ONE short question at a time.
-- Keep replies below 40 words.
-- Avoid generic chatbot behaviour.
-- Avoid repeating questions.
-- Do not ask for information already provided.
-- Maximum 4 qualification questions.
-
-Once these are known:
-
-- Education
-- Experience
-- BIM familiarity
-- Career objective
-
-When Education, Experience,
-BIM Familiarity and Career Objective
-are known, respond exactly:
-
-START_ASSESSMENT
-
-Do not ask any additional questions.
-Do not ask for email.
-Do not ask for contact information.
-Do not continue normal conversation.
+{KNOWLEDGE}
 """
 
 @router.post("/webhook")
@@ -164,6 +136,8 @@ async def webhook(
             lead.id
         )
 
+        stage = session.current_stage
+
         print(
             "NEW SESSION CREATED =",
             session.id
@@ -184,7 +158,11 @@ async def webhook(
     messages = [
         {
             "role": "system",
-            "content": SYSTEM_PROMPT
+            "content": (
+                SYSTEM_PROMPT
+                +
+                f"\n\nCurrent Counseling Stage: {stage}"
+            )
         }
     ]
 
@@ -253,22 +231,81 @@ async def webhook(
         "PROFILE =",
         profile
     )
+    education = profile.get(
+        "education"
+    )
+
+    experience = profile.get(
+        "experience"
+    )
+
+    bim_familiarity = profile.get(
+        "bim_familiarity"
+    )
+
+    career_goal = profile.get(
+        "career_goal"
+    )
+
+    if (
+        education
+        and education != "Unknown"
+        and
+        experience
+        and experience != "Unknown"
+        and
+        bim_familiarity
+        and bim_familiarity != "Unknown"
+        and
+        career_goal
+        and career_goal != "Unknown"
+        and
+        session.current_stage != "ASSESSMENT"
+    ):
+        update_profile(
+            db,
+            session.id,
+            current_stage="ASSESSMENT"
+        )
+
+        print(
+            "MOVING TO ASSESSMENT"
+        )
+
+        print(
+            "PROFILE =",
+            profile
+        )
+
+        print(
+            "CURRENT STAGE =",
+            session.current_stage
+        )
 
     update_profile(
         db,
         session.id,
+
         education=profile.get(
             "education"
         ),
+
         experience=profile.get(
             "experience"
         ),
+
+        bim_familiarity=profile.get(
+            "bim_familiarity"
+        ),
+
         career_goal=profile.get(
             "career_goal"
         ),
+
         lead_quality=profile.get(
             "lead_quality"
         ),
+
         lead_intent=profile.get(
             "lead_intent"
         )
